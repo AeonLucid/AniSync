@@ -1,0 +1,43 @@
+﻿@using AniSync.ViewModels.Auth;
+@model LoginViewModel
+
+@{
+    Layout = "_LayoutAuth";
+}
+
+<div class="row justify-content-md-center">
+    <div class="col col-md-6">
+        <h1>Login</h1>
+        
+        <button id="authPlex" class="btn btn-primary btn-block btn-lg">Sign in with Plex</button>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script type="text/javascript">
+        $('#authPlex').click(function () {
+            // Fetch a plex auth pin.
+            $.ajax({
+                url: 'https://plex.tv/api/v2/pins?strong=true',
+                type: 'post',
+                headers: {
+                    'X-Plex-Client-Identifier': '@Model.ClientId',
+                    'X-Plex-Product': 'AniSync',
+                    'X-Plex-Version': 3,
+                    'X-Plex-Device': 'AniSync',
+                    'X-Plex-Platform': 'Web',
+                    'Accept': 'application/json'
+                }
+            }).done(function (data) {
+                $('<a>')
+                    .attr('href', '@Model.Url/Auth/Redirect?id=' + data.id + '&code=' + data.code)
+                    .attr('target', '_blank')[0]
+                    .click();
+            })
+            .fail(function() {
+                alert('Plex API error..');
+            });
+        });
+    </script>
+}
