@@ -2,9 +2,7 @@
 {
     public class AniConfiguration
     {
-        public int Id { get; set; }
-
-        public AniConfigurationKey Key { get; set; }
+        public AniConfigurationKey Id { get; set; }
 
         public string Value { get; set; }
     }

@@ -30,23 +30,7 @@ namespace AniSync
             Directory.CreateDirectory(dataDirectory);
 
             // Register services.
-            services.AddSingleton(provider =>
-            {
-                var liteDb = new LiteDatabase(Path.Combine(dataDirectory, "AniSync.db"), new BsonMapper().WithAniSyncMappings());
-
-                var configuration = liteDb.GetCollection<AniConfiguration>();
-                if (!configuration.Exists(config => config.Key == AniConfigurationKey.PlexClientId))
-                {
-                    configuration.EnsureIndex(x => x.Key, true);
-                    configuration.Insert(new AniConfiguration
-                    {
-                        Key = AniConfigurationKey.PlexClientId,
-                        Value = Guid.NewGuid().ToString("N")
-                    });
-                }
-
-                return liteDb;
-            });
+            services.AddAniSyncDatabase(Path.Combine(dataDirectory, "AniSync.db"));
 
             services.AddApiClient<PlexApi>();
 
