@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Authentication.Cookies;
+﻿using AniSync.Api;
+using AniSync.Api.Plex;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -10,11 +12,14 @@ namespace AniSync
     {
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddApiClient<PlexApi>();
+
             services
                 .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>
                 {
                     options.LoginPath = "/Auth/Login";
+                    options.LogoutPath = "/Auth/Logout";
                 });
 
             services
