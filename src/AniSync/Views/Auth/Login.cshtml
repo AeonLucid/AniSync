@@ -1,43 +1,151 @@
 ﻿@using AniSync.ViewModels.Auth;
+@using Microsoft.AspNetCore.Routing
 @model LoginViewModel
 
 @{
     Layout = "_LayoutAuth";
 }
 
-<div class="row justify-content-md-center">
+@section Head
+{ 
+    <style type="text/css">
+        [v-cloak] {
+            display: none
+        }
+    </style>
+}
+
+<div id="v_app" class="row justify-content-md-center" v-cloak>
     <div class="col col-md-6">
-        <h1>Login</h1>
+        <h1 class="text-center">Login to AniSync</h1>
         
-        <button id="authPlex" class="btn btn-primary btn-block btn-lg"><i class="fa fa-user fa-fw"></i> Sign in with Plex</button>
+        <div class="alert alert-info" role="alert" v-if="plexPinId && !pinSuccess && !pinCancel">
+            <h4 class="alert-heading"><i class="fa fa-cog fa-spin fa-fw"></i> Waiting..</h4>
+            <p>
+                A pop-up window has been opened.<br/>
+                Please allow AniSync to connect to Plex in order to continue.
+            </p>
+            <hr>
+            <p class="mb-0">
+                <strong>Current status</strong> {{ pinError }}
+            </p>
+        </div>
+        
+        <div class="alert alert-danger" role="alert" v-if="!pinSuccess && pinCancel">
+            Authentication has been canceled.<br/>
+            Error message: {{ pinError }}
+        </div>
+        
+        <div class="alert alert-success" v-if="pinSuccess && pinLocation">
+            You have been signed in, click <a :href="pinLocation">here</a> to continue.
+        </div>
+
+        <button class="btn btn-primary btn-block btn-lg" :disabled="fetchingPin || pinSuccess" @@click="auth"><i class="fa fa-user fa-fw"></i> Sign in with Plex</button>
     </div>
 </div>
 
 @section Scripts
 {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.17/vue.min.js" integrity="sha256-FtWfRI+thWlNz2sB3SJbwKx5PgMyKIVgwHCTwa3biXc=" crossorigin="anonymous"></script>
     <script type="text/javascript">
-        $('#authPlex').click(function () {
-            // Fetch a plex auth pin.
-            $.ajax({
-                url: 'https://plex.tv/api/v2/pins?strong=true',
-                type: 'post',
-                headers: {
-                    'X-Plex-Client-Identifier': '@Model.ClientId',
-                    'X-Plex-Product': 'AniSync',
-                    'X-Plex-Version': 3,
-                    'X-Plex-Device': 'AniSync',
-                    'X-Plex-Platform': 'Web',
-                    'Accept': 'application/json'
+        const app = new Vue({
+            el: "#v_app",
+            data: {
+                timeoutId: null,
+                plexPinId: null,
+                fetchingPin: false,
+
+                pinSuccess: false,
+                pinCancel: false,
+                pinLocation: null,
+                pinError: 'Idle'
+            },
+            methods: {
+                checkPin: function() {
+                    const self = this;
+
+                    if (self.plexPinId === null) {
+                        return;
+                    }
+
+                    $.ajax({
+                            url: '@Url.Action("CheckPin", "Auth")',
+                            type: 'post',
+                            data: {
+                                'pinId': self.plexPinId
+                            }
+                        }).done(function(data) {
+                            self.pinSuccess = data.data.success;
+                            self.pinCancel = data.data.cancel;
+                            self.pinLocation = data.data.location;
+
+                            if (data.errors && data.errors.length > 0) {
+                                self.pinError = data.errors[0].message;
+                            }
+                        })
+                        .fail(function() {
+                            self.pinSuccess = false;
+                            self.pinCancel = true;
+                            self.pinError = 'Something went wrong in the backend.';
+                        })
+                        .always(function () {
+                            if (self.pinSuccess) {
+                                window.location.href = self.pinLocation;
+                                return;
+                            }
+
+                            if (self.pinCancel) {
+                                return;
+                            }
+
+                            if (self.plexPinId) {
+                                self.timeoutId = setTimeout(self.checkPin, 2500);
+                            }
+                        });
+
+                },
+
+                auth: function () {
+                    this.fetchingPin = true;
+
+                    // Fetch a plex auth pin.
+                    const self = this;
+                    
+                    self.pinSuccess = false;
+                    self.pinCancel = false;
+                    self.pinError = 'Idle';
+
+                    $.ajax({
+                            url: 'https://plex.tv/api/v2/pins?strong=true',
+                            type: 'post',
+                            headers: {
+                                'X-Plex-Client-Identifier': '@(Model.ClientId)',
+                                'X-Plex-Product': 'AniSync',
+                                'X-Plex-Version': 3,
+                                'X-Plex-Device': 'AniSync',
+                                'X-Plex-Platform': 'Web',
+                                'Accept': 'application/json'
+                            }
+                        }).done(function(data) {
+                            self.plexPinId = data.id;
+                            
+                            if (self.timeoutId === null) {
+                                self.timeoutId = setTimeout(self.checkPin, 2500);
+                            }
+
+                            $('<a>')
+                                .attr('href', '@Url.Action("Redirect", "Auth")?id=' + data.id + '&code=' + data.code)
+                                .attr('target', '_blank')[0]
+                                .click();
+                        })
+                        .fail(function() {
+                            alert('Plex API error..');
+                        })
+                        .always(function () {
+                            self.fetchingPin = false;
+                        });
                 }
-            }).done(function (data) {
-                $('<a>')
-                    .attr('href', '@Model.Url/Auth/Redirect?id=' + data.id + '&code=' + data.code)
-                    .attr('target', '_blank')[0]
-                    .click();
-            })
-            .fail(function() {
-                alert('Plex API error..');
-            });
+            }
         });
     </script>
 }

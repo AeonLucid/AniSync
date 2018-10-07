@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AniSync.Api\AniSync.Api.csproj" />
+    <ProjectReference Include="..\AniSync.Data\AniSync.Data.csproj" />
   </ItemGroup>
 
 </Project>

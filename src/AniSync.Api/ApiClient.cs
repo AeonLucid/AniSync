@@ -1,5 +1,4 @@
-﻿using System;
-using System.Net.Http;
+﻿using System.Net.Http;
 using Flurl.Http;
 
 namespace AniSync.Api

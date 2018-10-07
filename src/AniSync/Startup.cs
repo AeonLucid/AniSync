@@ -1,10 +1,8 @@
-﻿using System;
-using System.IO;
-using AniSync.Api;
+﻿using System.IO;
 using AniSync.Api.Plex;
 using AniSync.Data.Extensions;
-using AniSync.Data.Models;
-using LiteDB;
+using AniSync.Services;
+using AniSync.Services.Auth;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -30,9 +28,13 @@ namespace AniSync
             Directory.CreateDirectory(dataDirectory);
 
             // Register services.
+            services.AddHttpContextAccessor();
+
+            services.AddTransient<AuthService>();
+
             services.AddAniSyncDatabase(Path.Combine(dataDirectory, "AniSync.db"));
 
-            services.AddApiClient<PlexApi>();
+            services.AddPlexApi();
 
             services
                 .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)

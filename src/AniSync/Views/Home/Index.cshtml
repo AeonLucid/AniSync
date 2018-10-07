@@ -1,3 +1,6 @@
-﻿<h1>Index</h1>
+﻿@using AniSync.Services.Auth
+@using AniSync.Services.Auth.Extensions
 
-<p>Text</p>
+<h1>Index</h1>
+
+<p>Welcome, @User.GetClaim(AuthClaim.Name) with plex id @User.GetClaim(AuthClaim.PlexId)!</p>
