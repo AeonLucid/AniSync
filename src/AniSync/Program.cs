@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 
 namespace AniSync
 {
@@ -12,6 +13,12 @@ namespace AniSync
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
+                .ConfigureAppConfiguration(builder =>
+                {
+                    builder.Sources.Clear();
+                    builder.AddCommandLine(args);       // #2
+                    builder.AddEnvironmentVariables();  // #1
+                })
                 .UseStartup<Startup>();
     }
 }
