@@ -98,13 +98,13 @@ Task("DockerPublishImage").Does(() => {
                 break;
             }
 
-            publishTags.add(dockerTag + ":latest");
-            publishTags.add(dockerTag + ":" + AppVeyor.Environment.Repository.Tag.Name);
+            publishTags.Add(dockerTag + ":latest");
+            publishTags.Add(dockerTag + ":" + AppVeyor.Environment.Repository.Tag.Name);
             publishAllowed = true;
             break;
         
         case "develop":
-            publishTags.add(dockerTag + ":develop");
+            publishTags.Add(dockerTag + ":develop");
             publishAllowed = true;
             break;
 
