@@ -19,7 +19,7 @@ pull_requests:
 environment:
   DOTNET_CLI_TELEMETRY_OPTOUT: 1
   DOCKER_USER:
-    secure: 'NZWPfzS/Rjb6YJ21bzV8DA=='
+    secure: 'dZ8BqIQDazcZLCRV8F8J1A=='
   DOCKER_PASS:
     secure: 'pp+Z4JPEPNLu92j/dveok6vxK6SnRcygLAaa5PUOHrI='
 
