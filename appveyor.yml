@@ -23,10 +23,10 @@ environment:
   DOTNET_CLI_TELEMETRY_OPTOUT: 1
 
 before_build:
-  - dotnet restore -v Minimal %APPVEYOR_BUILD_FOLDER%\src\AniSync\AniSync.csproj
+  - dotnet restore -v Minimal $APPVEYOR_BUILD_FOLDER/src/AniSync/AniSync.csproj
 
 build_script:
-  - dotnet publish -c Release -r ubuntu.16.04-x64 %APPVEYOR_BUILD_FOLDER%\src\AniSync\AniSync.csproj -o %APPVEYOR_BUILD_FOLDER%\_build
+  - dotnet publish -c Release -r ubuntu.16.04-x64 $APPVEYOR_BUILD_FOLDER/src/AniSync/AniSync.csproj -o $APPVEYOR_BUILD_FOLDER/_build
   - docker build -t anisync .
 
 only_commits:
