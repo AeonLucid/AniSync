@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using AniSync.Api.Plex;
 using AniSync.Data.Extensions;
+using AniSync.Middleware;
 using AniSync.Services.Auth;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
@@ -54,6 +55,8 @@ namespace AniSync
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseMiddleware<SerilogMiddleware>();
 
             app.UseStaticFiles();
             app.UseAuthentication();
