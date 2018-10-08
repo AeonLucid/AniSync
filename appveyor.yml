@@ -29,3 +29,4 @@ only_commits:
   files:
     - src/
     - appveyor.yml
+    - build.cake
