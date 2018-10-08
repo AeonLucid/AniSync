@@ -17,6 +17,9 @@ pull_requests:
 environment:
   DOTNET_CLI_TELEMETRY_OPTOUT: 1
 
+install:
+  - ps: Install-Product node 10.9.0
+
 before_build:
   - sh: chmod +x ./build.sh
 
