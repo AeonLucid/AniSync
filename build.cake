@@ -115,8 +115,8 @@ Task("DockerPublishImage").Does(() => {
 
     if (publishAllowed) {
         DockerLogin(
-            AppVeyor.Environment.GetEnvironmentString("DOCKER_USER"),
-            AppVeyor.Environment.GetEnvironmentString("DOCKER_PASS")
+            EnvironmentVariable("DOCKER_USER"),
+            EnvironmentVariable("DOCKER_PASS")
         );
 
         foreach (var publishTag in publishTags)
