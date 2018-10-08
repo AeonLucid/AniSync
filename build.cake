@@ -14,6 +14,8 @@
 var buildDir = Directory("./_build");
 var projectRuntime = "ubuntu.16.04-x64";
 var projectDir = Directory("./src/AniSync/");
+var dockerPublisher = "AeonLucid";
+var dockerTagAppveyor = "anisync-appveyor";
 var dockerTag = "anisync";
 
 //////////////////////////////////////////////////////////////////////
@@ -59,32 +61,66 @@ Task("DockerBuildImage").Does(() => {
         BuildArg = new string[] {
             "BUILD_DATE=" + DateTimeOffset.UtcNow.ToString("u"),
             "VERSION=todo"
+        },
+        Tag = new string[] {
+            "anisync-appveyor"
         }
     }, ".");
 });
 
 Task("DockerPublishImage").Does(() => {
-    if (AppVeyor.IsRunningOnAppVeyor)
-    {
-        Information(
-            @"Environment:
-            ApiUrl: {0}
-            Configuration: {1}
-            JobId: {2}
-            JobName: {3}
-            Platform: {4}
-            ScheduledBuild: {5}",
-            AppVeyor.Environment.ApiUrl,
-            AppVeyor.Environment.Configuration,
-            AppVeyor.Environment.JobId,
-            AppVeyor.Environment.JobName,
-            AppVeyor.Environment.Platform,
-            AppVeyor.Environment.ScheduledBuild
-        );
+    // Publish requirements
+    //  - Running on AppVeyor
+    //      - not a pull request
+    //      - master (branch)
+    //          - tagged commit
+    //      - develop (branch)
+
+    if (!AppVeyor.IsRunningOnAppVeyor) {
+        Warning("Skipping DockerPublishImage because we are not building on AppVeyor.");
+        return;
     }
-    else
+
+    if (AppVeyor.PullRequest.IsPullRequest) {
+        Warning("Skipping DockerPublishImage because this is a pull request.");
+        return;
+    }
+
+    var branch = AppVeyor.Environment.Repository.Branch;
+    var publishTags = new List<string>();
+    var publishAllowed = false;
+
+    switch (branch)
     {
-        Information("Not running on AppVeyor");
+        case "master":
+            if (!AppVeyor.Environment.Repository.Tag.IsTag) {
+                Warning($"Skipping DockerPublishImage on master because the commit is not tagged.");
+                break;
+            }
+
+            publishTags.add(dockerTag + ":latest");
+            publishTags.add(dockerTag + ":" + AppVeyor.Environment.Repository.Tag.Name);
+            publishAllowed = true;
+            break;
+        
+        case "develop":
+            publishTags.add(dockerTag + ":develop");
+            publishAllowed = true;
+            break;
+
+        default:
+            Warning($"Skipping DockerPublishImage because of an unknown branch '{branch}'.");
+            break;
+    }
+
+    if (publishAllowed) {
+        foreach (var publishTag in publishTags)
+        {
+            var dockerImageWithTag = $"{dockerPublisher}/{publishTag}";
+
+            DockerTag(dockerTagAppveyor, dockerImageWithTag);
+            DockerPush(dockerImageWithTag);
+        }
     }
 });
 
