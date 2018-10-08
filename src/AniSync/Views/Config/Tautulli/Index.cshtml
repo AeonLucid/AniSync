@@ -1,0 +1,38 @@
+﻿<div class="row">
+    <div class="col-md">
+        <h2>Tautulli Config</h2>
+        
+        <form method="post">
+            <div class="form-group row">
+                <label for="inputEndpoint" class="col-md-3 col-form-label">Endpoint</label>
+                <div class="input-group col-md-9">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fa fa-globe fa-fw"></i></span>
+                    </div>
+                    <input type="text" class="form-control" id="inputEndpoint" name="endpoint" placeholder="http://localhost:8181" required>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="inputApikey" class="col-md-3 col-form-label">API key</label>
+                <div class="input-group col-md-9">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fa fa-key fa-fw"></i></span>
+                    </div>
+                    <input type="text" class="form-control" id="inputApikey" name="apikey" required>
+                    <span class="w-100"></span>
+                    <small class="form-text text-muted">
+                        You can find your Tautulli API key <a href="#" target="_blank">here</a>.
+                    </small>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="offset-md-8 col-md-2 col">
+                    <a href="#" class="btn btn-warning btn-block">Test</a>
+                </div>
+                <div class="col-md-2 col">
+                    <button name="submit" type="submit" class="btn btn-info btn-block">Save</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

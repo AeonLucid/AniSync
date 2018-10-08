@@ -1,7 +1,6 @@
 ﻿using System.IO;
 using AniSync.Api.Plex;
 using AniSync.Data.Extensions;
-using AniSync.Services;
 using AniSync.Services.Auth;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
@@ -58,10 +57,7 @@ namespace AniSync
 
             app.UseStaticFiles();
             app.UseAuthentication();
-            app.UseMvc(routes =>
-            {
-                routes.MapRoute("default", "{controller=Home}/{action=Index}/{id?}");
-            });
+            app.UseMvcWithDefaultRoute();
         }
     }
 }

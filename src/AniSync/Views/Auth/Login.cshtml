@@ -1,9 +1,8 @@
 ﻿@using AniSync.ViewModels.Auth;
-@using Microsoft.AspNetCore.Routing
 @model LoginViewModel
 
 @{
-    Layout = "_LayoutAuth";
+    ViewBag.ShowNavbar = false;
 }
 
 @section Head
@@ -46,7 +45,6 @@
 
 @section Scripts
 {
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.17/vue.min.js" integrity="sha256-FtWfRI+thWlNz2sB3SJbwKx5PgMyKIVgwHCTwa3biXc=" crossorigin="anonymous"></script>
     <script type="text/javascript">
         const app = new Vue({
             el: "#v_app",

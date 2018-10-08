@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AniSync.Controllers
 {
+    [Route("Auth")]
     public class AuthController : Controller
     {
         private readonly ConfigurationRepository _configuration;
@@ -25,7 +26,7 @@ namespace AniSync.Controllers
             _authService = authService;
         }
 
-        [HttpGet]
+        [HttpGet("Login")]
         public IActionResult Login()
         {
             var requestUrl = $"{Request.Scheme}://{Request.Host}{Request.PathBase}";
@@ -33,7 +34,7 @@ namespace AniSync.Controllers
             return View(new LoginViewModel(requestUrl, _configuration.GetPlexClientId()));
         }
 
-        [HttpGet]
+        [HttpGet("Logout")]
         public async Task<IActionResult> Logout()
         {
             await _authService.SignOutAsync();
@@ -41,7 +42,7 @@ namespace AniSync.Controllers
             return Redirect(Url.Action("Login"));
         }
 
-        [HttpGet]
+        [HttpGet("Redirect")]
         public IActionResult Redirect(
             [FromQuery(Name = "id")] string plexId,
             [FromQuery(Name = "code")] string plexCode)
@@ -49,7 +50,7 @@ namespace AniSync.Controllers
             return Redirect(_plexApi.GetOAuthUrl(plexId, plexCode, _configuration.GetPlexClientId()));
         }
 
-        [HttpPost]
+        [HttpPost("CheckPin")]
         public async Task<IActionResult> CheckPin([FromForm(Name = "pinId")] int pinId)
         {
             var pin = await _plexApi.GetPinAsync(pinId);

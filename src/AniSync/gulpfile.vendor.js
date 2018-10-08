@@ -8,7 +8,8 @@ gulp.task("vendor-js", function () {
     return gulp.src([
             "./node_modules/jquery/dist/jquery.js",
             "./node_modules/popper.js/dist/umd/popper.js",
-            "./node_modules/bootstrap/dist/js/bootstrap.js"
+            "./node_modules/bootstrap/dist/js/bootstrap.js",
+            "./node_modules/vue/dist/vue.js"
         ])
         .pipe(concat("vendor.min.js"))
         .pipe(uglify())

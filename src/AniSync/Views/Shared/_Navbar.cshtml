@@ -1,15 +1,31 @@
 ﻿<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
     <div class="container">
-        <a class="navbar-brand" href="#">AniSync</a>
+        <a class="navbar-brand" href="@Url.Action("Index", "Home")">AniSync</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
 
         <div class="collapse navbar-collapse" id="navbarsExampleDefault">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="#"><i class="fa fa-home fa-fw" aria-hidden="true"></i> Home</a>
+                <li class="nav-item">
+                    <a class="nav-link" href="@Url.Action("Index", "Home")"><i class="fa fa-home fa-fw" aria-hidden="true"></i> Home</a>
                 </li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fa fa-cogs fa-fw" aria-hidden="true"></i> Config
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="@Url.Action("Index", "Tautulli")">
+                            <i class="fa fa-check fa-fw"></i> Tautulli
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#">
+                            <i class="fa fa-times fa-fw"></i> AniList
+                        </a>
+                    </div>
+                </li>
+
                 <li class="nav-item">
                     <a class="nav-link" href="@Url.Action("Logout", "Auth")"><i class="fa fa-sign-out fa-fw" aria-hidden="true"></i> Logout</a>
                 </li>
