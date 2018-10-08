@@ -1,0 +1,63 @@
+#addin nuget:?package=Cake.Npm
+
+//////////////////////////////////////////////////////////////////////
+// ARGUMENTS
+//////////////////////////////////////////////////////////////////////
+
+
+
+//////////////////////////////////////////////////////////////////////
+// PREPARATION
+//////////////////////////////////////////////////////////////////////
+
+var buildDir = Directory("./_build");
+var projectRuntime = "ubuntu.16.04-x64";
+var projectDir = Directory("./src/AniSync/");
+
+//////////////////////////////////////////////////////////////////////
+// BUILD
+//////////////////////////////////////////////////////////////////////
+
+Task("Gulp").Does(() => {
+    NpmInstall(new NpmInstallSettings {
+		LogLevel = NpmLogLevel.Silent,
+		WorkingDirectory = projectDir,
+		Production = false
+	});
+
+    NpmRunScript(new NpmRunScriptSettings {
+		LogLevel = NpmLogLevel.Silent,
+        ScriptName = "prod",
+		WorkingDirectory = projectDir
+    });
+});
+
+Task("Publish").Does(() => {
+    DotNetCoreRestore(projectDir, new DotNetCoreRestoreSettings
+    {
+        Verbosity = DotNetCoreVerbosity.Minimal
+    });
+
+    DotNetCorePublish(projectDir, new DotNetCorePublishSettings
+    {
+        Runtime = projectRuntime,
+        SelfContained = true,
+        Configuration = "Release",
+        OutputDirectory = buildDir,
+        Verbosity = DotNetCoreVerbosity.Minimal
+    });
+});
+
+//////////////////////////////////////////////////////////////////////
+// TASK TARGETS
+//////////////////////////////////////////////////////////////////////
+
+Task("Build")
+	.IsDependentOn("Gulp")
+	.IsDependentOn("Publish");
+
+//////////////////////////////////////////////////////////////////////
+// EXECUTION
+//////////////////////////////////////////////////////////////////////
+
+RunTarget("Build");
