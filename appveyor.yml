@@ -27,8 +27,7 @@ before_build:
   - sh: chmod +x ./build.sh
 
 build_script:
-  # - sh: ./build.sh
-  - sh: docker login -u $DOCKER_USER -p $DOCKER_PASS
+  - sh: ./build.sh
 
 only_commits:
   files:
