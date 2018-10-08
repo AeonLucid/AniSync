@@ -14,7 +14,7 @@
 var buildDir = Directory("./_build");
 var projectRuntime = "ubuntu.16.04-x64";
 var projectDir = Directory("./src/AniSync/");
-var dockerPublisher = "AeonLucid";
+var dockerPublisher = "aeonlucid";
 var dockerTagAppveyor = "anisync-appveyor";
 var dockerTag = "anisync";
 
