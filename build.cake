@@ -81,7 +81,7 @@ Task("DockerPublishImage").Does(() => {
         return;
     }
 
-    if (AppVeyor.PullRequest.IsPullRequest) {
+    if (AppVeyor.Environment.PullRequest.IsPullRequest) {
         Warning("Skipping DockerPublishImage because this is a pull request.");
         return;
     }
@@ -114,6 +114,11 @@ Task("DockerPublishImage").Does(() => {
     }
 
     if (publishAllowed) {
+        DockerLogin(
+            AppVeyor.Environment.GetEnvironmentString("DOCKER_USER"),
+            AppVeyor.Environment.GetEnvironmentString("DOCKER_PASS")
+        );
+
         foreach (var publishTag in publishTags)
         {
             var dockerImageWithTag = $"{dockerPublisher}/{publishTag}";
