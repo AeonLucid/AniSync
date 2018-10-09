@@ -1,0 +1,36 @@
+version: '1.0.{build}'
+
+image: ubuntu
+
+stack: node 10.9.0
+
+dotnet_csproj:
+  patch: true
+  file: '**\*.csproj'
+  version: '{version}'
+  package_version: '{version}'
+  assembly_version: '{version}'
+  file_version: '{version}'
+  informational_version: '{version}'
+
+pull_requests:
+  do_not_increment_build_number: true
+
+environment:
+  DOTNET_CLI_TELEMETRY_OPTOUT: 1
+  DOCKER_USER:
+    secure: 'dZ8BqIQDazcZLCRV8F8J1A=='
+  DOCKER_PASS:
+    secure: 'pp+Z4JPEPNLu92j/dveok6vxK6SnRcygLAaa5PUOHrI='
+
+before_build:
+  - sh: chmod +x ./build.sh
+
+build_script:
+  - sh: ./build.sh
+
+only_commits:
+  files:
+    - src/
+    - appveyor.yml
+    - build.cake
