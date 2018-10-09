@@ -113,9 +113,6 @@ Task("DockerPublishImage").Does(() => {
             break;
     }
 
-    publishTags.Add(dockerTag + ":develop");
-    publishAllowed = true;
-
     if (publishAllowed) {
         DockerLogin(
             EnvironmentVariable("DOCKER_USER"),
