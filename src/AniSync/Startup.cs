@@ -57,7 +57,6 @@ namespace AniSync
             }
 
             app.UseMiddleware<SerilogMiddleware>();
-
             app.UseStaticFiles();
             app.UseAuthentication();
             app.UseMvcWithDefaultRoute();
