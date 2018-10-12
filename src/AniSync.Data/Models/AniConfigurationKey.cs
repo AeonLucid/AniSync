@@ -2,6 +2,9 @@
 {
     public enum AniConfigurationKey
     {
-        PlexClientId
+        PlexClientId,
+        TautulliEnabled,
+        TautulliEndpoint,
+        TautulliApiKey
     }
 }

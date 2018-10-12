@@ -29,6 +29,7 @@ namespace AniSync
 
             services
                 .AddMvc()
+                .AddViewOptions(options => { options.HtmlHelperOptions.ClientValidationEnabled = false; })
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
         

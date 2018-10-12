@@ -1,24 +1,37 @@
-﻿<div class="row">
+﻿@model AniSync.ViewModels.Config.TautulliViewModel
+
+<div class="row">
     <div class="col-md">
         <h2>Tautulli Config</h2>
         
-        <form method="post">
+        <form asp-controller="Tautulli" asp-action="Save" method="post">
             <div class="form-group row">
-                <label for="inputEndpoint" class="col-md-3 col-form-label">Endpoint</label>
+                <label class="col-md-3 col-form-label">Enabled</label>
+                <div class="input-group col-md-9">
+                    <div class="form-check">
+                        <input class="form-check-input" placeholder="http://localhost:8181" asp-for="Enabled">
+                        <label class="form-check-label" asp-for="Enabled">
+                            Check to enable Tautulli
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label asp-for="Endpoint" class="col-md-3 col-form-label">Endpoint</label>
                 <div class="input-group col-md-9">
                     <div class="input-group-prepend">
                         <span class="input-group-text"><i class="fa fa-globe fa-fw"></i></span>
                     </div>
-                    <input type="text" class="form-control" id="inputEndpoint" name="endpoint" placeholder="http://localhost:8181" required>
+                    <input class="form-control" placeholder="http://localhost:8181" asp-for="Endpoint" required>
                 </div>
             </div>
             <div class="form-group row">
-                <label for="inputApikey" class="col-md-3 col-form-label">API key</label>
+                <label asp-for="ApiKey" class="col-md-3 col-form-label">API key</label>
                 <div class="input-group col-md-9">
                     <div class="input-group-prepend">
                         <span class="input-group-text"><i class="fa fa-key fa-fw"></i></span>
                     </div>
-                    <input type="text" class="form-control" id="inputApikey" name="apikey" required>
+                    <input class="form-control" asp-for="ApiKey" required>
                     <span class="w-100"></span>
                     <small class="form-text text-muted">
                         You can find your Tautulli API key <a href="#" target="_blank">here</a>.
