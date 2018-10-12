@@ -5,7 +5,7 @@
       "launchBrowser": true,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
-        "DataDirectory": "C:\\DevData\\AniSync"
+        "ANISYNC_DATADIRECTORY": "C:\\DevData\\AniSync"
       },
       "applicationUrl": "http://localhost:5123"
     }

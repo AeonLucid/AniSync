@@ -3,4 +3,4 @@
 cd /opt/anisync || exit
 
 exec \
-	s6-setuidgid abc /opt/anisync/AniSync --DataDirectory "/config"
+	s6-setuidgid abc /opt/anisync/AniSync

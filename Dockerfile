@@ -8,6 +8,7 @@ LABEL maintainer="AeonLucid"
 
 # Environment.
 ENV HOME="/config"
+ENV ANISYNC_DATADIRECTORY="/config/app"
 ENV ASPNETCORE_ENVIRONMENT=Production
 ENV ASPNETCORE_URLS=http://*:5322
 
