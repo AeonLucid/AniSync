@@ -18,6 +18,7 @@ namespace AniSync.Data.Extensions
             });
 
             services.AddSingleton<ConfigurationRepository>();
+            services.AddSingleton<UserRepository>();
         }
     }
 }

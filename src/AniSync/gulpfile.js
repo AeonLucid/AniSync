@@ -7,3 +7,5 @@ require("./gulpfile.vendor");
 gulp.task("vendor", ["vendor-js", "vendor-css", "vendor-fonts"]);
 
 gulp.task("prod", ["vendor"]);
+
+gulp.task("build", ["vendor"]);

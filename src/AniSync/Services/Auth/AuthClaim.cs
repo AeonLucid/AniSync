@@ -6,6 +6,7 @@
         PlexToken,
         PlexThumb,
         Name,
-        Email
+        Email,
+        IsAdmin
     }
 }

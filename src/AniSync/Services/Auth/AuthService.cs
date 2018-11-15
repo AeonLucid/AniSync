@@ -2,6 +2,8 @@
 using System.Security.Claims;
 using System.Threading.Tasks;
 using AniSync.Api.Plex;
+using AniSync.Data.Models;
+using AniSync.Data.Repositories;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
@@ -12,11 +14,14 @@ namespace AniSync.Services.Auth
     {
         private readonly HttpContext _httpContext;
 
+        private readonly UserRepository _userRepository;
+
         private readonly PlexApi _plexApi;
 
-        public AuthService(IHttpContextAccessor httpContextAccessor, PlexApi plexApi)
+        public AuthService(IHttpContextAccessor httpContextAccessor, UserRepository userRepository, PlexApi plexApi)
         {
             _httpContext = httpContextAccessor.HttpContext;
+            _userRepository = userRepository;
             _plexApi = plexApi;
         }
 
@@ -24,7 +29,15 @@ namespace AniSync.Services.Auth
         {
             // Receive user data from Plex.
             var account = await _plexApi.GetAccountAsync(authToken);
-                
+            
+            // Add user to database.
+            //   If there is no admin yet, make this user an admin.
+            _userRepository.Upsert(new AniUser
+            {
+                Id = account.Id,
+                Admin = !_userRepository.ContainsAdmin()
+            });
+
             // Set response cookie.
             var claims = new List<Claim>
             {
@@ -35,12 +48,16 @@ namespace AniSync.Services.Auth
                 new Claim(AuthClaim.Email.ToString(), account.Email)
             };
 
-            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            if (_userRepository.IsAdmin(account.Id))
+            {
+                claims.Add(new Claim(ClaimTypes.Role, "Admin"));
+            }
 
+            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            
             var authProperties = new AuthenticationProperties
             {
-                IsPersistent = true,
-                
+                IsPersistent = true
             };
             
             await _httpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties);
