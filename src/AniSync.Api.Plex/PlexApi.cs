@@ -1,5 +1,4 @@
-﻿using System.Net.Http;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using AniSync.Api.Plex.Responses;
 using Flurl;
 using Flurl.Http;
@@ -8,7 +7,7 @@ namespace AniSync.Api.Plex
 {
     public class PlexApi : ApiClient
     {
-        public PlexApi(HttpClient client) : base(client)
+        public PlexApi(FlurlClient client) : base(client)
         {
         }
 
@@ -36,7 +35,7 @@ namespace AniSync.Api.Plex
 
         public async Task<PlexAccount> GetAccountAsync(string authToken)
         {
-            var result = await $"https://plex.tv/users/account.json"
+            var result = await "https://plex.tv/users/account.json"
                 .WithHeader("X-Plex-Token", authToken)
                 .GetJsonAsync<PlexAccountResponse>();
 

@@ -1,11 +1,13 @@
 ﻿using AniSync.Data.Repositories;
 using AniSync.Data.Repositories.Config;
 using AniSync.ViewModels.Config;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AniSync.Controllers.Config
 {
     [Route("Config/Tautulli")]
+    [Authorize(Roles = "Admin")]
     public class TautulliController : Controller
     {
         private readonly ConfigurationRepository _configuration;
@@ -29,7 +31,7 @@ namespace AniSync.Controllers.Config
         }
 
         [HttpPost("Save")]
-        // [ValidateAntiForgeryToken]
+        [ValidateAntiForgeryToken]
         public IActionResult Save(TautulliViewModel model)
         {
             if (!ModelState.IsValid)
@@ -45,6 +47,17 @@ namespace AniSync.Controllers.Config
             });
 
             return RedirectToAction("Index");
+        }
+
+        [HttpPost("Test")]
+        public IActionResult Test(TautulliViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
+            return StatusCode(200);
         }
     }
 }

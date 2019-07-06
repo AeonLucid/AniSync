@@ -22,6 +22,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AniSync.Api.Plex\AniSync.Api.Plex.csproj" />
+    <ProjectReference Include="..\AniSync.Api.Tautulli\AniSync.Api.Tautulli.csproj" />
     <ProjectReference Include="..\AniSync.Api\AniSync.Api.csproj" />
     <ProjectReference Include="..\AniSync.Data\AniSync.Data.csproj" />
   </ItemGroup>

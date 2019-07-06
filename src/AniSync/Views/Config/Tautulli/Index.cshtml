@@ -1,9 +1,9 @@
 ﻿@model AniSync.ViewModels.Config.TautulliViewModel
 
-<div class="row">
+<div id="v_app" class="row">
     <div class="col-md">
         <h2>Tautulli Config</h2>
-        
+
         <form asp-controller="Tautulli" asp-action="Save" method="post">
             <div class="form-group row">
                 <label class="col-md-3 col-form-label">Enabled</label>
@@ -40,7 +40,7 @@
             </div>
             <div class="form-group row">
                 <div class="offset-md-8 col-md-2 col">
-                    <a href="#" class="btn btn-warning btn-block">Test</a>
+                    <a href="#" class="btn btn-warning btn-block" @@click="testConfig">Test</a>
                 </div>
                 <div class="col-md-2 col">
                     <button name="submit" type="submit" class="btn btn-info btn-block">Save</button>
@@ -49,3 +49,37 @@
         </form>
     </div>
 </div>
+
+@section Scripts
+{
+    <script type="text/javascript">
+        const app = new Vue({
+            el: "#v_app",
+            methods: {
+                testConfig: function () {
+                    const enabled = $("Enabled").is(":checked");
+                    const endpoint = $("#Endpoint").val();
+                    const apiKey = $("#ApiKey").val();
+
+                    $.ajax({
+                        url: '@Url.Action("Test", "Tautulli")',
+                        type: 'post',
+                        data: {
+                            'enabled': enabled,
+                            'endpoint': endpoint,
+                            'apiKey': apiKey
+                        }
+                    }).done(function (data) {
+
+                    })
+                    .fail(function() {
+                        
+                    })
+                    .always(function () {
+                        console.log('Done.');
+                    });
+                }
+            }
+        });
+    </script>
+}

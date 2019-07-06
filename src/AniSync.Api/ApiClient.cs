@@ -1,13 +1,12 @@
-﻿using System.Net.Http;
-using Flurl.Http;
+﻿using Flurl.Http;
 
 namespace AniSync.Api
 {
     public abstract class ApiClient
     {
-        protected ApiClient(HttpClient client)
+        protected ApiClient(FlurlClient client)
         {
-            Client = new FlurlClient(client);
+            Client = client;
         }
 
         protected FlurlClient Client { get; }

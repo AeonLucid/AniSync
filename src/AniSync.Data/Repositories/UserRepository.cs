@@ -10,6 +10,16 @@ namespace AniSync.Data.Repositories
 
         }
 
+        public void Create(AniUser user)
+        {
+            Insert(user);
+        }
+
+        public bool Exists(long userId)
+        {
+            return FirstOrDefault<AniUser>(x => x.Id == userId) != null;
+        }
+
         public bool ContainsAdmin()
         {
             return FirstOrDefault<AniUser>(x => x.Admin) != null;

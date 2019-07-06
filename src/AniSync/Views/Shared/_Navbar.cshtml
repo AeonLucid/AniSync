@@ -6,25 +6,28 @@
         </button>
 
         <div class="collapse navbar-collapse" id="navbarsExampleDefault">
-            <ul class="navbar-nav mr-auto">
+            <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
                     <a class="nav-link" href="@Url.Action("Index", "Home")"><i class="fa fa-home fa-fw" aria-hidden="true"></i> Home</a>
                 </li>
 
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="fa fa-cogs fa-fw" aria-hidden="true"></i> Config
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="@Url.Action("Index", "Tautulli")">
-                            <i class="fa fa-check fa-fw"></i> Tautulli
+                @if (@User.IsInRole("Admin"))
+                {
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fa fa-cogs fa-fw" aria-hidden="true"></i> Config
                         </a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">
-                            <i class="fa fa-times fa-fw"></i> AniList
-                        </a>
-                    </div>
-                </li>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="@Url.Action("Index", "Tautulli")">
+                                <i class="fa fa-check fa-fw"></i> Tautulli
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">
+                                <i class="fa fa-times fa-fw"></i> AniList
+                            </a>
+                        </div>
+                    </li>
+                }
 
                 <li class="nav-item">
                     <a class="nav-link" href="@Url.Action("Logout", "Auth")"><i class="fa fa-sign-out fa-fw" aria-hidden="true"></i> Logout</a>

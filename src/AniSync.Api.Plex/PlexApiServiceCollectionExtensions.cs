@@ -1,4 +1,5 @@
 ﻿using AniSync.Data.Repositories;
+using Flurl.Http;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace AniSync.Api.Plex
@@ -11,12 +12,13 @@ namespace AniSync.Api.Plex
             {
                 var config = provider.GetRequiredService<ConfigurationRepository>();
 
-                client.DefaultRequestHeaders.Add("Accept", "application/json");
-                client.DefaultRequestHeaders.Add("X-Plex-Client-Identifier", config.GetPlexClientId());
-                client.DefaultRequestHeaders.Add("X-Plex-Product", "AniSync");
-                client.DefaultRequestHeaders.Add("X-Plex-Version", "3");
-                client.DefaultRequestHeaders.Add("X-Plex-Device", "AniSync");
-                client.DefaultRequestHeaders.Add("X-Plex-Platform", "Web");
+                return client
+                    .WithHeader("Accept", "application/json")
+                    .WithHeader("X-Plex-Client-Identifier", config.GetPlexClientId())
+                    .WithHeader("X-Plex-Product", "AniSync")
+                    .WithHeader("X-Plex-Version", "3")
+                    .WithHeader("X-Plex-Device", "AniSync")
+                    .WithHeader("X-Plex-Platform", "Web");
             });
         }
     }

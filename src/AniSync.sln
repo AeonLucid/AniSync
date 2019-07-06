@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AniSync.Api.Plex", "AniSync
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AniSync.Api", "AniSync.Api\AniSync.Api.csproj", "{85C73B64-AF23-4A64-AEF8-B85D4E454F1A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AniSync.Data", "AniSync.Data\AniSync.Data.csproj", "{994F0783-B7C2-4185-8347-0F998EF0AD9B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AniSync.Data", "AniSync.Data\AniSync.Data.csproj", "{994F0783-B7C2-4185-8347-0F998EF0AD9B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AniSync.Api.Tautulli", "AniSync.Api.Tautulli\AniSync.Api.Tautulli.csproj", "{383F525D-FF46-443D-A774-755C9ADAD046}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,6 +37,10 @@ Global
 		{994F0783-B7C2-4185-8347-0F998EF0AD9B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{994F0783-B7C2-4185-8347-0F998EF0AD9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{994F0783-B7C2-4185-8347-0F998EF0AD9B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{383F525D-FF46-443D-A774-755C9ADAD046}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{383F525D-FF46-443D-A774-755C9ADAD046}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{383F525D-FF46-443D-A774-755C9ADAD046}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{383F525D-FF46-443D-A774-755C9ADAD046}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -43,6 +49,7 @@ Global
 		{6C388AE4-A8A1-4F80-8B72-686833C17856} = {982B22CA-24E6-4A18-850D-49130FD2B42B}
 		{85C73B64-AF23-4A64-AEF8-B85D4E454F1A} = {982B22CA-24E6-4A18-850D-49130FD2B42B}
 		{994F0783-B7C2-4185-8347-0F998EF0AD9B} = {982B22CA-24E6-4A18-850D-49130FD2B42B}
+		{383F525D-FF46-443D-A774-755C9ADAD046} = {982B22CA-24E6-4A18-850D-49130FD2B42B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4FF54AA2-2517-4CB3-9A2E-29651F149135}

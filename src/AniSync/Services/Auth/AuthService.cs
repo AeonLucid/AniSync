@@ -31,12 +31,15 @@ namespace AniSync.Services.Auth
             var account = await _plexApi.GetAccountAsync(authToken);
             
             // Add user to database.
-            //   If there is no admin yet, make this user an admin.
-            _userRepository.Upsert(new AniUser
+            if (!_userRepository.Exists(account.Id))
             {
-                Id = account.Id,
-                Admin = !_userRepository.ContainsAdmin()
-            });
+                // If there is no admin yet, make this user an admin.
+                _userRepository.Create(new AniUser
+                {
+                    Id = account.Id,
+                    Admin = !_userRepository.ContainsAdmin()
+                });
+            }
 
             // Set response cookie.
             var claims = new List<Claim>
